@@ -13,7 +13,9 @@ public interface ProductoService {
 
     Producto save(Producto producto);
 
-    Optional<Producto> delete(Producto producto);
+    Optional<Producto>  update(Integer id, Producto producto);
+
+    Optional<Producto> delete(Integer id);
 
 
 }

@@ -37,13 +37,26 @@ public class ProductoServiceImpl implements ProductoService{
 
     @Transactional
     @Override
-    public Optional<Producto> delete(Producto producto) {
-        Optional<Producto> productOptional = repositorio.findById(producto.getId());
+    public Optional<Producto>  update(Integer id, Producto producto) {
+        Optional<Producto> productOptional = repositorio.findById(id);
+       if (productOptional.isPresent()){
+           Producto prod = productOptional.orElseThrow();
+            prod.setNombre(producto.getNombre());
+            prod.setDescripcion(producto.getDescripcion());
+            prod.setPrecio(producto.getPrecio());
+            return Optional.of(repositorio.save(prod));
+        }
+        return productOptional;
+    }
+
+    @Transactional
+    @Override
+    public Optional<Producto> delete(Integer id) {
+        Optional<Producto> productOptional = repositorio.findById(id);
         productOptional.ifPresent(prod -> {
-            repositorio.delete(producto);
+            repositorio.delete(prod);
         });
         return productOptional;
-     
     }
 
 }
