@@ -1,6 +1,8 @@
 package com.moises.springboot.app.crud.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
@@ -13,9 +15,15 @@ public class User {
     private Integer id;
 
     @Column(unique = true)
+    @NotBlank
+    @Size(min=4,max=12)
     private String username;
 
+    @NotBlank
     private String password;
+
+    @Transient
+    private boolean admin;
 
     @ManyToMany
     @JoinTable(
@@ -57,5 +65,13 @@ public class User {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 }
